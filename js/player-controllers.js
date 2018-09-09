@@ -25,19 +25,25 @@ const player = function () {
         videoMain.currentTime = time;
     }
 
-    videoMain.addEventListener('progress', function () {
-        var range = 0;
-        var bf = this.buffered;
-        var time = this.currentTime;
+    // videoMain.addEventListener('progress', function () {
+    //     var range = 0;
+    //     var bf = this.buffered;
+    //     var time = this.currentTime;
 
-        while (!(bf.start(range) <= time && time <= bf.end(range))) {
-            range += 1;
-        }
-    });
+    //     while (!(bf.start(range) <= time && time <= bf.end(range))) {
+    //         range += 1;
+    //     }
+    // });
 
     let videoWrapper = document.getElementById('video-wrapper');
 
     let openFullscreen = () => {
+
+        if (!document.webkitIsFullScreen) {
+            lastHeight = videoWrapper.style.height;
+            lastWidth = videoWrapper.style.width;
+        }
+
         if (videoWrapper.requestFullscreen) {
             videoWrapper.requestFullscreen();
         } else if (videoWrapper.mozRequestFullScreen) { /* Firefox */
@@ -52,26 +58,18 @@ const player = function () {
     let lastHeight;
     let lastWidth;
 
-    document.onwebkitfullscreenchange = function () {
-        if (document.webkitIsFullScreen) {
-            lastHeight = $(videoWrapper).height();
-            lastWidth = $(videoWrapper).width();
+    appEvent.onFullScreenExit(() => {
+        videoWrapper.style.height = lastHeight;
+        videoWrapper.style.width = lastWidth;
+    })
 
-            videoWrapper.style.height = '100%';
-            videoWrapper.style.width = '100%';
-        } else {
-            $(videoWrapper).height(lastHeight);
-            $(videoWrapper).width(lastWidth);
-        }
+    appEvent.onFullScreenOpen(() => {
+        let height = $(window).height();
+        let width = $(window).width();
 
-        width = $(canvas.parentElement).width();
-        canvas.width = width;
-    }
-
-    window.onresize = function () {
-        width = $(canvas.parentElement).width();
-        canvas.width = width;
-    }
+        $(videoWrapper).height(height);
+        $(videoWrapper).width(width);
+    })
 
     return {
         playVideo,

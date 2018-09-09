@@ -62,10 +62,16 @@ let playSlider = function () {
         c.closePath();
     }
 
-    window.onresize = function () {
+    let resetHeight = () => {
         width = $(canvas.parentElement).width();
         canvas.width = width;
     }
+
+    appEvent.onWindowResize(resetHeight);
+
+    appEvent.onFullScreenOpen(resetHeight);
+    
+    appEvent.onFullScreenExit(resetHeight);
 
     return {
         startAnimation

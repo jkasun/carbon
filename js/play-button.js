@@ -35,7 +35,7 @@ let playButton = function () {
 
     let drawPlayButton = (c) => {
         let iX = height / 2;
-        let iY = width / 2;       
+        let iY = width / 2;
 
         var lastRad = Math.PI * 2 * player.getVideoCurrentTime() / player.getVideoDuration();
 

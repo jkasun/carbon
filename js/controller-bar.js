@@ -122,6 +122,17 @@ let controlBar = function () {
         fullScreenButton.draw(c);
     }
 
+    let resetHeight = () => {
+        width = $(canvas.parentElement).width();
+        canvas.width = width;
+    }
+
+    appEvent.onWindowResize(resetHeight);
+
+    appEvent.onFullScreenOpen(resetHeight);
+    
+    appEvent.onFullScreenExit(resetHeight);
+
     return {
         startAnimation
     }
