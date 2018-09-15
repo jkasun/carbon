@@ -26,6 +26,10 @@ let controlBar = function () {
         if (fullScreenButton.isInside(clickPos)) {
             player.openFullscreen();
         }
+
+        if (volumeBar.isInside(clickPos)) {
+            volumeBar.onClick(clickPos);
+        }
     }
 
     let startAnimation = () => {
@@ -76,8 +80,8 @@ let controlBar = function () {
         }
 
         let isInside = function ({ x, y }) {
-            let verticallyInside = x > width - 18 - rightPad - lineWidth && x < width - rightPad + lineWidth;
-            let horizontallyInsize = y > topPad - lineWidth && y < 18 + lineWidth;
+            let horizontallyInsize = x > width - 18 - rightPad - lineWidth && x < width - rightPad + lineWidth;
+            let verticallyInside = y > topPad - lineWidth && y < 18 + lineWidth;
 
             return verticallyInside && horizontallyInsize;
         }
@@ -85,6 +89,72 @@ let controlBar = function () {
         return {
             draw,
             isInside
+        }
+    }();
+
+    let volumeBar = function () {
+        let mute_img = new Image(22, 22);
+        mute_img.src = './assets/icons/mute.png';
+
+        let volume_img = new Image(22, 22);
+        volume_img.src = './assets/icons/volume.png';
+
+        let draw = function (c) {
+            if (player.isMuted()) {
+                c.drawImage(mute_img, width - 105, 7, 16, 16);
+            } else {
+                c.drawImage(volume_img, width - 105, 7, 16, 16);
+            }
+
+            // Background
+            c.fillStyle = '#ffffff';
+            c.beginPath();
+            c.moveTo(width - 85, 24);
+            c.lineTo(width - 40, 24);
+            c.lineTo(width - 40, 6);
+            c.fill();
+
+            let volume = player.getVolume();
+            let volumeWidth = 45 * volume;
+            let volumeHeight = 18 - 18 * volume;
+
+            // Background
+            c.fillStyle = ColorPallete.Primary;
+            c.beginPath();
+            c.moveTo(width - 85, 24);
+            c.lineTo(width - 85 + volumeWidth, 24);
+            c.lineTo(width - 85 + volumeWidth, 6 + volumeHeight);
+            c.fill();
+        }
+
+        let isInside = ({ x, y }) => {
+            let horizontallyInsize = x > width - 105 && x < width - 40;
+            let verticallyInside = y > 7 && y < height - 7;
+            return horizontallyInsize && verticallyInside;
+        }
+
+        let onClick = ({ x, y }) => {
+            if (x > width - 105 && x < width - 105 + 16) {
+                if (player.isMuted()) {
+                    player.unmuteVideo();
+                } else {
+                    player.muteVideo();
+                }
+            } else if (x > width - 85 && x < width - 40) {
+                let volume = (x - (width - 85)) / 45;
+
+                if (volume > 0.95) {
+                    volume = 1;
+                }
+
+                player.setVolume(volume);
+            }
+        }
+
+        return {
+            draw,
+            isInside,
+            onClick
         }
     }();
 
@@ -120,6 +190,7 @@ let controlBar = function () {
         c.closePath();
 
         fullScreenButton.draw(c);
+        volumeBar.draw(c);
     }
 
     let resetHeight = () => {
@@ -130,7 +201,7 @@ let controlBar = function () {
     appEvent.onWindowResize(resetHeight);
 
     appEvent.onFullScreenOpen(resetHeight);
-    
+
     appEvent.onFullScreenExit(resetHeight);
 
     return {

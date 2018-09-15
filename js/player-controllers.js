@@ -25,6 +25,26 @@ const player = function () {
         videoMain.currentTime = time;
     }
 
+    let muteVideo = () => {
+        videoMain.muted = true;
+    }
+
+    let unmuteVideo = () => {
+        videoMain.muted = false;
+    }
+
+    let isMuted = () => {
+        return videoMain.muted;
+    }
+
+    let setVolume = (value) => {
+        videoMain.volume  = value;
+    }
+
+    let getVolume = () => {
+        return videoMain.volume;
+    }
+
     // videoMain.addEventListener('progress', function () {
     //     var range = 0;
     //     var bf = this.buffered;
@@ -78,6 +98,11 @@ const player = function () {
         getVideoCurrentTime,
         getVideoDuration,
         setCurrentTime,
-        openFullscreen
+        openFullscreen,
+        muteVideo,
+        unmuteVideo,
+        isMuted,
+        setVolume,
+        getVolume
     }
 }();

@@ -67,10 +67,36 @@ let playSlider = function () {
         canvas.width = width;
     }
 
+    let mouseFreez = null;
+
+    canvas.onmouseover = function () {
+        canvas.onmousemove = function (evt) {
+            clearInterval(mouseFreez);
+            let rect = canvas.getBoundingClientRect();
+
+            let clickPos = {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+
+            mouseFreez = setTimeout(() => {
+                let id = clickPos.x / width * 300;
+                thumbnailBar.displayThumbnail(Math.round(id));
+            }, 50);
+        }
+    }
+
+    canvas.onmouseleave = function () {
+        clearInterval(mouseFreez);
+        mouseFreez = null;
+
+        thumbnailBar.hide();
+    }
+
     appEvent.onWindowResize(resetHeight);
 
     appEvent.onFullScreenOpen(resetHeight);
-    
+
     appEvent.onFullScreenExit(resetHeight);
 
     return {
