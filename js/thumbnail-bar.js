@@ -3,6 +3,7 @@ let thumbnailBar = function () {
 
     const canvas = document.createElement('canvas');
     canvas.className = "thumbnail-bar"
+    canvas.style.display = 'none';
 
     document.getElementById('video-overlay').appendChild(canvas);
 
