@@ -1,5 +1,6 @@
 const player = function () {
     const videoMain = document.getElementById('video-main');
+    const videoWrapper = document.getElementById('video-wrapper');
 
     let playVideo = () => {
         videoMain.play();
@@ -38,12 +39,28 @@ const player = function () {
     }
 
     let setVolume = (value) => {
+        if (value > 1 || value < 0) {
+            return;
+        }
+
         videoMain.volume  = value;
     }
 
     let getVolume = () => {
         return videoMain.volume;
     }
+
+    videoWrapper.addEventListener("wheel", function (e) {
+        let volume = getVolume();
+        
+        if (e.wheelDeltaY > 0) {
+            setVolume(volume + 0.1);
+        }
+
+        if (e.wheelDeltaY < 0) {
+            setVolume(volume - 0.1);
+        }
+    });
 
     // videoMain.addEventListener('progress', function () {
     //     var range = 0;
@@ -54,8 +71,6 @@ const player = function () {
     //         range += 1;
     //     }
     // });
-
-    let videoWrapper = document.getElementById('video-wrapper');
 
     let openFullscreen = () => {
 
