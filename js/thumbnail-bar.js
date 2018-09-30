@@ -8,7 +8,7 @@ let thumbnailBar = function () {
     document.getElementById('video-overlay').appendChild(canvas);
 
     let height = 86 * z;
-    let width = $(canvas.parentElement).width();
+    let width = canvas.parentElement.offsetWidth;
 
     canvas.height = height;
     canvas.width = width;
@@ -46,7 +46,7 @@ let thumbnailBar = function () {
     }
 
     let resetHeight = () => {
-        width = $(canvas.parentElement).width();
+        width = canvas.parentElement.offsetWidth;
         canvas.width = width;
     }
 

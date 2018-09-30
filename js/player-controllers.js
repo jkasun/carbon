@@ -62,16 +62,6 @@ const player = function () {
         }
     });
 
-    // videoMain.addEventListener('progress', function () {
-    //     var range = 0;
-    //     var bf = this.buffered;
-    //     var time = this.currentTime;
-
-    //     while (!(bf.start(range) <= time && time <= bf.end(range))) {
-    //         range += 1;
-    //     }
-    // });
-
     let openFullscreen = () => {
 
         if (!document.webkitIsFullScreen) {
@@ -88,6 +78,22 @@ const player = function () {
         } else if (videoWrapper.msRequestFullscreen) { /* IE/Edge */
             videoWrapper.msRequestFullscreen();
         }
+    };
+
+    let exitFullScreen = () => {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    };
+
+    let isFullScreen = () => {
+        return document.webkitIsFullScreen;
     }
 
     let lastHeight;
@@ -99,11 +105,11 @@ const player = function () {
     })
 
     appEvent.onFullScreenOpen(() => {
-        let height = $(window).height();
-        let width = $(window).width();
+        let height = window.innerHeight;
+        let width = window.innerWidth;
 
-        $(videoWrapper).height(height);
-        $(videoWrapper).width(width);
+        videoWrapper.style.height = height;
+        videoWrapper.style.width = width;
     })
 
     return {
@@ -118,6 +124,8 @@ const player = function () {
         unmuteVideo,
         isMuted,
         setVolume,
-        getVolume
+        getVolume,
+        exitFullScreen,
+        isFullScreen
     }
 }();

@@ -1,4 +1,4 @@
-.center-hv {
+.cnv-play-btn{
     left: 50%;
     position: absolute;
     top: 50%;
@@ -6,8 +6,8 @@
 }
 
 .video-wrapper {
-    height: 500px;
-    width: 800px;
+    min-height: 200px;
+    /* height: 500px; */
     position: relative;
     background-color: black;
 }
@@ -21,7 +21,7 @@
 }
 
 .video-overlay {
-    z-index: 10;
+    z-index: 1;
 }
 
 .play-slider {

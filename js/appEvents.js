@@ -1,5 +1,4 @@
 let appEvent = function () {
-
     let subscriptions = {};
 
     let on = (eventName, sub) => {

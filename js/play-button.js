@@ -1,8 +1,8 @@
 let playButton = function () {
-    let z = 1.5; // zoomLevel
+    let z = 1; // zoomLevel
 
     const canvas = document.createElement('canvas');
-    canvas.className = "center-hv";
+    canvas.className = "cnv-play-btn";
 
     let height = 92 * z;
     let width = 92 * z;
@@ -75,11 +75,11 @@ let playButton = function () {
     }
 
     let show = () => {
-        $(canvas).css('display', 'block');
+        canvas.style.display = 'block';
     }
 
     let hide = () => {
-        $(canvas).css('display', 'none')
+        canvas.style.display = 'none';
     }
 
     canvas.onclick = function () {

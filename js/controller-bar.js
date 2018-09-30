@@ -7,7 +7,7 @@ let controlBar = function () {
     document.getElementById('video-overlay').appendChild(canvas);
 
     let height = 30 * z;
-    let width = $(canvas.parentElement).width();
+    let width = canvas.parentElement.offsetWidth;
 
     canvas.height = height;
     canvas.width = width;
@@ -24,7 +24,11 @@ let controlBar = function () {
         };
 
         if (fullScreenButton.isInside(clickPos)) {
-            player.openFullscreen();
+            if (document.webkitIsFullScreen) {
+                player.exitFullScreen();
+            } else {
+                player.openFullscreen();
+            }
         }
 
         if (volumeBar.isInside(clickPos)) {
@@ -59,21 +63,39 @@ let controlBar = function () {
             c.beginPath();
             c.lineWidth = lineWidth;
 
-            c.moveTo(width - 18 - rightPad, 8 + topPad);
-            c.lineTo(width - 18 - rightPad, 0 + topPad);
-            c.lineTo(width - 10 - rightPad, 0 + topPad);
+            if (player.isFullScreen()) {
+                c.moveTo(width - 18 - rightPad, 6 + topPad);
+                c.lineTo(width - 12 - rightPad, 6 + topPad);
+                c.lineTo(width - 12 - rightPad, 0 + topPad);
 
-            c.moveTo(width - 0 - rightPad, 8 + topPad);
-            c.lineTo(width - 0 - rightPad, 0 + topPad);
-            c.lineTo(width - 8 - rightPad, 0 + topPad);
+                c.moveTo(width - 0 - rightPad, 6 + topPad);
+                c.lineTo(width - 6 - rightPad, 6 + topPad);
+                c.lineTo(width - 6 - rightPad, 0 + topPad);
 
-            c.moveTo(width - 18 - rightPad, 10 + topPad);
-            c.lineTo(width - 18 - rightPad, 18 + topPad);
-            c.lineTo(width - 10 - rightPad, 18 + topPad);
+                c.moveTo(width - 18 - rightPad, 10 + topPad);
+                c.lineTo(width - 12 - rightPad, 10 + topPad);
+                c.lineTo(width - 12 - rightPad, 16 + topPad);
 
-            c.moveTo(width - 8 - rightPad, 18 + topPad);
-            c.lineTo(width - 0 - rightPad, 18 + topPad);
-            c.lineTo(width - 0 - rightPad, 10 + topPad);
+                c.moveTo(width - 6 - rightPad, 16 + topPad);
+                c.lineTo(width - 6 - rightPad, 10 + topPad);
+                c.lineTo(width - 0 - rightPad, 10 + topPad);
+            } else {
+                c.moveTo(width - 18 - rightPad, 8 + topPad);
+                c.lineTo(width - 18 - rightPad, 0 + topPad);
+                c.lineTo(width - 10 - rightPad, 0 + topPad);
+
+                c.moveTo(width - 0 - rightPad, 8 + topPad);
+                c.lineTo(width - 0 - rightPad, 0 + topPad);
+                c.lineTo(width - 8 - rightPad, 0 + topPad);
+
+                c.moveTo(width - 18 - rightPad, 10 + topPad);
+                c.lineTo(width - 18 - rightPad, 18 + topPad);
+                c.lineTo(width - 10 - rightPad, 18 + topPad);
+
+                c.moveTo(width - 8 - rightPad, 18 + topPad);
+                c.lineTo(width - 0 - rightPad, 18 + topPad);
+                c.lineTo(width - 0 - rightPad, 10 + topPad);
+            }
 
             c.stroke();
             c.closePath();
@@ -194,7 +216,7 @@ let controlBar = function () {
     }
 
     let resetHeight = () => {
-        width = $(canvas.parentElement).width();
+        width = canvas.parentElement.offsetWidth;
         canvas.width = width;
     }
 

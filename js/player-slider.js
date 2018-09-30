@@ -7,7 +7,7 @@ let playSlider = function () {
     document.getElementById('video-overlay').appendChild(canvas);
 
     let height = 25 * z;
-    let width = $(canvas.parentElement).width();
+    let width = canvas.parentElement.offsetWidth;
 
     canvas.height = height;
     canvas.width = width;
@@ -63,7 +63,7 @@ let playSlider = function () {
     }
 
     let resetHeight = () => {
-        width = $(canvas.parentElement).width();
+        width = canvas.parentElement.offsetWidth;
         canvas.width = width;
     }
 

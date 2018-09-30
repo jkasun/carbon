@@ -8,5 +8,5 @@ const ColorPallete = {
 };
 
 const Settings = {
-    SliderFont : 'Roboto Condensed'
+    SliderFont : 'Roboto'
 }

@@ -1,24 +1,22 @@
 let aspectRatio = null;
 
-$(() => {
+document.addEventListener("DOMContentLoaded", function () {
     let hideEvent = null;
+    let videoMain = document.getElementById('video-main');
+    let videoOverlay = document.getElementById('video-overlay');
 
-    $('#video-main').bind('loadedmetadata', function () {
+    videoMain.onloadedmetadata = function () {
         playButton.startAnimation();
         playSlider.startAnimation();
         controlBar.startAnimation();
-    });
+    }
 
-    $('.video-overlay').mouseover(function () {
+    videoOverlay.onmousemove = function () {
         clearTimeout(hideEvent);
         playButton.show();
-    });
-
-    $('.video-overlay').mouseleave(function () {
-        clearTimeout(hideEvent);
 
         hideEvent = setTimeout(function () {
             playButton.hide();
         }, 5000)
-    });
+    }
 });
