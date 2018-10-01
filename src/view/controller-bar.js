@@ -1,10 +1,13 @@
-let controlBar = function () {
+const appEvent = require('../controller/app-events');
+const {Theme} = require('./theme');
+
+let ControlBar = function (videoOverlay, video) {
     let z = 1;
 
     const canvas = document.createElement('canvas');
     canvas.className = "controller-bar"
 
-    document.getElementById('video-overlay').appendChild(canvas);
+    videoOverlay.appendChild(canvas);
 
     let height = 30 * z;
     let width = canvas.parentElement.offsetWidth;
@@ -25,9 +28,9 @@ let controlBar = function () {
 
         if (fullScreenButton.isInside(clickPos)) {
             if (document.webkitIsFullScreen) {
-                player.exitFullScreen();
+                video.exitFullScreen();
             } else {
-                player.openFullscreen();
+                video.openFullscreen();
             }
         }
 
@@ -63,7 +66,7 @@ let controlBar = function () {
             c.beginPath();
             c.lineWidth = lineWidth;
 
-            if (player.isFullScreen()) {
+            if (video.isFullScreen()) {
                 c.moveTo(width - 18 - rightPad, 6 + topPad);
                 c.lineTo(width - 12 - rightPad, 6 + topPad);
                 c.lineTo(width - 12 - rightPad, 0 + topPad);
@@ -122,7 +125,7 @@ let controlBar = function () {
         volume_img.src = './assets/icons/volume.png';
 
         let draw = function (c) {
-            if (player.isMuted()) {
+            if (video.isMuted()) {
                 c.drawImage(mute_img, width - 105, 7, 16, 16);
             } else {
                 c.drawImage(volume_img, width - 105, 7, 16, 16);
@@ -136,12 +139,12 @@ let controlBar = function () {
             c.lineTo(width - 40, 6);
             c.fill();
 
-            let volume = player.getVolume();
+            let volume = video.getVolume();
             let volumeWidth = 45 * volume;
             let volumeHeight = 18 - 18 * volume;
 
             // Background
-            c.fillStyle = ColorPallete.Primary;
+            c.fillStyle = Theme.Primary;
             c.beginPath();
             c.moveTo(width - 85, 24);
             c.lineTo(width - 85 + volumeWidth, 24);
@@ -157,10 +160,10 @@ let controlBar = function () {
 
         let onClick = ({ x, y }) => {
             if (x > width - 105 && x < width - 105 + 16) {
-                if (player.isMuted()) {
-                    player.unmuteVideo();
+                if (video.isMuted()) {
+                    video.unmuteVideo();
                 } else {
-                    player.muteVideo();
+                    video.muteVideo();
                 }
             } else if (x > width - 85 && x < width - 40) {
                 let volume = (x - (width - 85)) / 45;
@@ -169,7 +172,7 @@ let controlBar = function () {
                     volume = 1;
                 }
 
-                player.setVolume(volume);
+                video.setVolume(volume);
             }
         }
 
@@ -183,14 +186,14 @@ let controlBar = function () {
     let drawControllerBar = (c) => {
         let f = (n) => n < 10 ? '0' + n : n;
 
-        c.fillStyle = ColorPallete.ControlBarBackground;
+        c.fillStyle = Theme.ControlBarBackground;
         c.lineWidth = 1 * z;
         c.beginPath();
         c.rect(0, 0, width, height * z);
         c.fill();
         c.closePath();
 
-        let currentTime = Math.round(player.getVideoCurrentTime());
+        let currentTime = Math.round(video.getVideoCurrentTime());
         let s = currentTime % 60;
         let m = Math.floor(currentTime / 60);
 
@@ -199,7 +202,7 @@ let controlBar = function () {
 
         c.fillStyle = '#ffffff';
         c.beginPath();
-        c.font = `${20 * z}px ${Settings.SliderFont}`;
+        c.font = `${20 * z}px ${Theme.SliderFont}`;
         c.fillText(mTxt, 10, 23 * z);
         c.closePath();
 
@@ -207,7 +210,7 @@ let controlBar = function () {
 
         c.fillStyle = '#ffffff';
         c.beginPath();
-        c.font = `${16 * z}px ${Settings.SliderFont}`;
+        c.font = `${16 * z}px ${Theme.SliderFont}`;
         c.fillText(sTxt, 15 + mWidth, 20 * z);
         c.closePath();
 
@@ -229,4 +232,6 @@ let controlBar = function () {
     return {
         startAnimation
     }
-}();
+};
+
+module.exports = ControlBar;

@@ -1,6 +1,7 @@
 const videoController = require('./controller/video');
 const PlayButton = require('./view/play-button');
 const Slider = require('./view/slider');
+const ControllerBar = require('./view/controller-bar');
 
 /**
  * 
@@ -49,11 +50,13 @@ let carbon = function (elementId, options) {
 
     let playButton = PlayButton(videoOverlay, vidApi);
     let slider = Slider(videoOverlay, vidApi);
+    let controllerBar = ControllerBar(videoOverlay, vidApi);
 
     // Starting the animation
     videoElement.onloadedmetadata = function () {
         playButton.startAnimation();
         slider.startAnimation();
+        controllerBar.startAnimation();
     }
 
     var hideEvent = null;

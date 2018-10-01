@@ -1,0 +1,23 @@
+{
+  "name": "carbon",
+  "version": "1.0.0",
+  "description": "## Settings",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkasun/carbon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jkasun/carbon/issues"
+  },
+  "homepage": "https://github.com/jkasun/carbon#readme",
+  "devDependencies": {
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
+  }
+}
