@@ -1,10 +1,14 @@
-let playSlider = function () {
+const {Theme} = require('./theme');
+const appEvent = require('../controller/app-events');
+const ThumbnailBar = require('./thumbnail-bar');
+
+let Slider = function (videoOverlay, video) {
     let z = 1;
 
     const canvas = document.createElement('canvas');
     canvas.className = "play-slider"
 
-    document.getElementById('video-overlay').appendChild(canvas);
+    videoOverlay.appendChild(canvas);
 
     let height = 25 * z;
     let width = canvas.parentElement.offsetWidth;
@@ -24,9 +28,9 @@ let playSlider = function () {
         };
 
         let ratio = clickPos.x / width;
-        let seekTime = player.getVideoDuration() * ratio;
+        let seekTime = video.getVideoDuration() * ratio;
 
-        player.setCurrentTime(seekTime);
+        video.setCurrentTime(seekTime);
     }
 
     let startAnimation = () => {
@@ -46,16 +50,16 @@ let playSlider = function () {
     }
 
     let drawSlider = (c) => {
-        let status = width * player.getVideoCurrentTime() / player.getVideoDuration();
+        let status = width * video.getVideoCurrentTime() / video.getVideoDuration();
 
-        c.fillStyle = ColorPallete.SliderBackground;
+        c.fillStyle = Theme.SliderBackground;
         c.lineWidth = 1;
         c.beginPath();
         c.rect(0, 0, width, height * z);
         c.fill();
         c.closePath();
 
-        c.fillStyle = ColorPallete.SliderColor;
+        c.fillStyle = Theme.SliderColor;
         c.beginPath();
         c.rect(0, 0, status, height * z);
         c.fill();
@@ -67,6 +71,7 @@ let playSlider = function () {
         canvas.width = width;
     }
 
+    let thumbnailBar = ThumbnailBar(videoOverlay);
     let mouseFreez = null;
 
     canvas.onmouseover = function () {
@@ -102,4 +107,6 @@ let playSlider = function () {
     return {
         startAnimation
     }
-}();
+};
+
+module.exports = Slider;

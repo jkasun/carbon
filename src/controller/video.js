@@ -1,41 +1,40 @@
-const player = function () {
-    const videoMain = document.getElementById('video-main');
-    const videoWrapper = document.getElementById('video-wrapper');
+const appEvent = require('./app-events');
 
+const player = function (mediaElement, mediaWrapper) {
     let playVideo = () => {
-        videoMain.play();
+        mediaElement.play();
     }
 
     let isVideoPlaying = () => {
-        return !videoMain.paused;
+        return !mediaElement.paused;
     }
 
     let pauseVideo = () => {
-        videoMain.pause();
+        mediaElement.pause();
     }
 
     let getVideoDuration = () => {
-        return videoMain.duration;
+        return mediaElement.duration;
     }
 
     let getVideoCurrentTime = () => {
-        return videoMain.currentTime;
+        return mediaElement.currentTime;
     }
 
     let setCurrentTime = (time) => {
-        videoMain.currentTime = time;
+        mediaElement.currentTime = time;
     }
 
     let muteVideo = () => {
-        videoMain.muted = true;
+        mediaElement.muted = true;
     }
 
     let unmuteVideo = () => {
-        videoMain.muted = false;
+        mediaElement.muted = false;
     }
 
     let isMuted = () => {
-        return videoMain.muted;
+        return mediaElement.muted;
     }
 
     let setVolume = (value) => {
@@ -43,14 +42,14 @@ const player = function () {
             return;
         }
 
-        videoMain.volume  = value;
+        mediaElement.volume  = value;
     }
 
     let getVolume = () => {
-        return videoMain.volume;
+        return mediaElement.volume;
     }
 
-    videoWrapper.addEventListener("wheel", function (e) {
+    mediaWrapper.addEventListener("wheel", function (e) {
         let volume = getVolume();
         
         if (e.wheelDeltaY > 0) {
@@ -65,18 +64,18 @@ const player = function () {
     let openFullscreen = () => {
 
         if (!document.webkitIsFullScreen) {
-            lastHeight = videoWrapper.style.height;
-            lastWidth = videoWrapper.style.width;
+            lastHeight = mediaWrapper.style.height;
+            lastWidth = mediaWrapper.style.width;
         }
 
-        if (videoWrapper.requestFullscreen) {
-            videoWrapper.requestFullscreen();
-        } else if (videoWrapper.mozRequestFullScreen) { /* Firefox */
-            videoWrapper.mozRequestFullScreen();
-        } else if (videoWrapper.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-            videoWrapper.webkitRequestFullscreen();
-        } else if (videoWrapper.msRequestFullscreen) { /* IE/Edge */
-            videoWrapper.msRequestFullscreen();
+        if (mediaWrapper.requestFullscreen) {
+            mediaWrapper.requestFullscreen();
+        } else if (mediaWrapper.mozRequestFullScreen) { /* Firefox */
+            mediaWrapper.mozRequestFullScreen();
+        } else if (mediaWrapper.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+            mediaWrapper.webkitRequestFullscreen();
+        } else if (mediaWrapper.msRequestFullscreen) { /* IE/Edge */
+            mediaWrapper.msRequestFullscreen();
         }
     };
 
@@ -100,16 +99,16 @@ const player = function () {
     let lastWidth;
 
     appEvent.onFullScreenExit(() => {
-        videoWrapper.style.height = lastHeight;
-        videoWrapper.style.width = lastWidth;
+        mediaWrapper.style.height = lastHeight;
+        mediaWrapper.style.width = lastWidth;
     })
 
     appEvent.onFullScreenOpen(() => {
         let height = window.innerHeight;
         let width = window.innerWidth;
 
-        videoWrapper.style.height = height;
-        videoWrapper.style.width = width;
+        mediaWrapper.style.height = height;
+        mediaWrapper.style.width = width;
     })
 
     return {
@@ -128,4 +127,6 @@ const player = function () {
         exitFullScreen,
         isFullScreen
     }
-}();
+};
+
+module.exports = player;

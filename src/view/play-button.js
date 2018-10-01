@@ -1,4 +1,6 @@
-let playButton = function () {
+var {Theme} = require('./theme');
+
+let playButton = function (videoOverlay, video) {
     let z = 1; // zoomLevel
 
     const canvas = document.createElement('canvas');
@@ -10,7 +12,7 @@ let playButton = function () {
     canvas.height = height;
     canvas.width = width;
 
-    document.getElementById('video-overlay').appendChild(canvas);
+    videoOverlay.appendChild(canvas);
 
     let frameRate = 24;
     let frameTime = Math.round(1000 / frameRate);
@@ -37,24 +39,24 @@ let playButton = function () {
         let iX = height / 2;
         let iY = width / 2;
 
-        var lastRad = Math.PI * 2 * player.getVideoCurrentTime() / player.getVideoDuration();
+        var lastRad = Math.PI * 2 * video.getVideoCurrentTime() / video.getVideoDuration();
 
         // Outer line
         c.beginPath();
-        c.strokeStyle = ColorPallete.Primary;
+        c.strokeStyle = Theme.PrimaryColor;
         c.lineWidth = 1;
         c.arc(iX, iY, 44 * z, 0, 2 * Math.PI);
         c.stroke();
 
         // Timer Status
         c.beginPath();
-        c.strokeStyle = ColorPallete.Primary;
+        c.strokeStyle = Theme.PrimaryColor;
         c.lineWidth = 5 * z;
         c.arc(iX, iY, 41 * z, 0, lastRad);
         c.stroke();
 
         // Play, Pause Symbols
-        if (player.isVideoPlaying()) {
+        if (video.isVideoPlaying()) {
             c.beginPath();
             c.rect(iX - 15 * z, iY - 15 * z, 10 * z, 30 * z);
             c.stroke();
@@ -70,7 +72,7 @@ let playButton = function () {
             c.closePath();
         }
 
-        c.fillStyle = ColorPallete.Primary;
+        c.fillStyle = Theme.PrimaryColor;
         c.fill();
     }
 
@@ -83,10 +85,10 @@ let playButton = function () {
     }
 
     canvas.onclick = function () {
-        if (player.isVideoPlaying()) {
-            player.pauseVideo();
+        if (video.isVideoPlaying()) {
+            video.pauseVideo();
         } else {
-            player.playVideo();
+            video.playVideo();
         }
     }
 
@@ -95,4 +97,6 @@ let playButton = function () {
         show,
         hide
     }
-}();
+};
+
+module.exports = playButton;

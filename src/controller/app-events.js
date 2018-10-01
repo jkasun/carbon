@@ -49,3 +49,5 @@ let appEvent = function () {
         onFullScreenExit
     }
 }();
+
+module.exports = appEvent;

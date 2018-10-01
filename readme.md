@@ -2,6 +2,10 @@
 
 ## Settings
 
+* VideoMeta
+    * Video URL
+    * Poster
+    * Autoplay
 * General
     * Font
     * Colors
@@ -12,4 +16,3 @@
 * Thumbnail Bar
     * Enabled
     * Thumbnail Image Link
-* 

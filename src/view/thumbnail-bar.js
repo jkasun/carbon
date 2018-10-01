@@ -1,11 +1,13 @@
-let thumbnailBar = function () {
+const appEvent = require('../controller/app-events');
+
+let ThumbnailBar = function (videoOverlay) {
     let z = 1;
 
     const canvas = document.createElement('canvas');
     canvas.className = "thumbnail-bar"
     canvas.style.display = 'none';
 
-    document.getElementById('video-overlay').appendChild(canvas);
+    videoOverlay.appendChild(canvas);
 
     let height = 86 * z;
     let width = canvas.parentElement.offsetWidth;
@@ -60,4 +62,6 @@ let thumbnailBar = function () {
         displayThumbnail,
         hide
     }
-}();
+};
+
+module.exports = ThumbnailBar;
