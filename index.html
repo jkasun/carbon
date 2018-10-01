@@ -19,9 +19,16 @@
 
     <script>
         let options = {
-            videoUrl: 'https://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_20mb.mp4',
+            videoUrl: 'dist/sample.mp4',
+            poster: 'https://intenseplugin.com/wp-content/uploads/2016/09/big_buck_bunny.jpg',
             width: 800,
-            height: 500
+            height: 500,
+            thumbnail: {
+                enabled: true,
+                getImageByDuration: function (seekDuration) {
+                    return `http://localhost:3000/getThumbnail/${seekDuration + 1}`;
+                }
+            }
         }
 
         carbon('vid1', options);

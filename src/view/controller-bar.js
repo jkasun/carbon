@@ -144,7 +144,7 @@ let ControlBar = function (videoOverlay, video) {
             let volumeHeight = 18 - 18 * volume;
 
             // Background
-            c.fillStyle = Theme.Primary;
+            c.fillStyle = Theme.PrimaryColor;
             c.beginPath();
             c.moveTo(width - 85, 24);
             c.lineTo(width - 85 + volumeWidth, 24);

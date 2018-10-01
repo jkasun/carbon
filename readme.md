@@ -5,11 +5,11 @@
 * VideoMeta
     * Video URL
     * Poster
-    * Autoplay
+    * Auto Play
 * General
     * Font
     * Colors
-    * Controller Autohide
+    * Controller Auto Hide
 * Play/Pause Button
     * DisplayTimeout
     * Scale

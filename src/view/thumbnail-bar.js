@@ -1,6 +1,6 @@
 const appEvent = require('../controller/app-events');
 
-let ThumbnailBar = function (videoOverlay) {
+let ThumbnailBar = function (videoOverlay, video, getImageByDuration) {
     let z = 1;
 
     const canvas = document.createElement('canvas');
@@ -15,15 +15,15 @@ let ThumbnailBar = function (videoOverlay) {
     canvas.height = height;
     canvas.width = width;
 
-    let displayThumbnail = (id) => {
+    let displayThumbnail = (videoDuration) => {
         var img = new Image(200, 86);
-        img.src = `http://localhost:3000/getThumbnail/${id + 1}`
+        img.src = getImageByDuration(videoDuration);
 
         const c = canvas.getContext('2d');
 
         img.onload = function () {
             let draw = () => {
-                let x = width * id / 300;
+                let x = width * videoDuration / video.getVideoDuration();
 
                 if (x + 100 < 200) {
                     x = 100;

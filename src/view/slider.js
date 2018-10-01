@@ -1,8 +1,15 @@
-const {Theme} = require('./theme');
+const { Theme } = require('./theme');
 const appEvent = require('../controller/app-events');
 const ThumbnailBar = require('./thumbnail-bar');
 
-let Slider = function (videoOverlay, video) {
+/**
+ * @param {*} videoOverlay 
+ * @param {*} video 
+ * @param {String} options Slider Options
+ * @param {Boolean} options.thumbnail.enabled 
+ * @param {Function} options.thumbnail.getImageByDuration
+ */
+let Slider = function (videoOverlay, video, options) {
     let z = 1;
 
     const canvas = document.createElement('canvas');
@@ -71,31 +78,32 @@ let Slider = function (videoOverlay, video) {
         canvas.width = width;
     }
 
-    let thumbnailBar = ThumbnailBar(videoOverlay);
-    let mouseFreez = null;
+    if (options && options.thumbnail && options.thumbnail.enabled) {
+        let thumbnailBar = ThumbnailBar(videoOverlay, video, options.thumbnail.getImageByDuration);
+        let mouseFreezeEvent = null;
 
-    canvas.onmouseover = function () {
-        canvas.onmousemove = function (evt) {
-            clearInterval(mouseFreez);
-            let rect = canvas.getBoundingClientRect();
+        canvas.onmouseover = function () {
+            canvas.onmousemove = function (evt) {
+                clearInterval(mouseFreezeEvent);
+                let rect = canvas.getBoundingClientRect();
 
-            let clickPos = {
-                x: evt.clientX - rect.left,
-                y: evt.clientY - rect.top
-            };
+                let clickPos = {
+                    x: evt.clientX - rect.left,
+                    y: evt.clientY - rect.top
+                };
 
-            mouseFreez = setTimeout(() => {
-                let id = clickPos.x / width * 300;
-                thumbnailBar.displayThumbnail(Math.round(id));
-            }, 50);
+                mouseFreezeEvent = setTimeout(() => {
+                    let id = clickPos.x / width * video.getVideoDuration();
+                    thumbnailBar.displayThumbnail(Math.round(id));
+                }, 50);
+            }
         }
-    }
 
-    canvas.onmouseleave = function () {
-        clearInterval(mouseFreez);
-        mouseFreez = null;
-
-        thumbnailBar.hide();
+        canvas.onmouseleave = function () {
+            clearInterval(mouseFreezeEvent);
+            mouseFreezeEvent = null;
+            thumbnailBar.hide();
+        }
     }
 
     appEvent.onWindowResize(resetHeight);

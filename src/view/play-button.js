@@ -1,7 +1,7 @@
 var {Theme} = require('./theme');
 
 let playButton = function (videoOverlay, video) {
-    let z = 1; // zoomLevel
+    let z = 1.5; // zoomLevel
 
     const canvas = document.createElement('canvas');
     canvas.className = "cnv-play-btn";
