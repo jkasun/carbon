@@ -1,5 +1,7 @@
 const appEvent = require('../controller/app-events');
 const {Theme} = require('./theme');
+const soundIcon = require('./img/sound');
+const muteIcon = require('./img/mute');
 
 let ControlBar = function (videoOverlay, video) {
     let z = 1;
@@ -119,10 +121,10 @@ let ControlBar = function (videoOverlay, video) {
 
     let volumeBar = function () {
         let mute_img = new Image(22, 22);
-        mute_img.src = './assets/icons/mute.png';
+        mute_img.src = muteIcon;
 
         let volume_img = new Image(22, 22);
-        volume_img.src = './assets/icons/volume.png';
+        volume_img.src = soundIcon;
 
         let draw = function (c) {
             if (video.isMuted()) {
