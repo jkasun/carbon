@@ -3,8 +3,8 @@ const appEvent = require('../controller/app-events');
 const ThumbnailBar = require('./thumbnail-bar');
 
 /**
- * @param {*} videoOverlay 
- * @param {*} video 
+ * @param {HTMLElement} videoOverlay 
+ * @param {HTMLElement} video 
  * @param {String} options Slider Options
  * @param {Boolean} options.thumbnail.enabled 
  * @param {Function} options.thumbnail.getImageByDuration
