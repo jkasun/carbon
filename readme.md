@@ -2,7 +2,7 @@
 
 Carbon is a free opensource HTML 5 video player developed using the HTML canvas.
 
-![Screenshot 1]('doc/images/screenshot1.png')
+![Screenshot 1](./doc/images/screenshot1.png)
 
 ## Language and Framework
 
